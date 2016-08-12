@@ -1,0 +1,24 @@
+mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=admin
+    - MYSQL_DATABASE=magento
+    - MYSQL_USER=magento
+    - MYSQL_PASSWORD=magento
+
+apache:
+  image: eboraas/apache-php
+  volumes:
+    - "./www/:/var/www/html/"
+    - "./volumes/apache-php/etc/php5/apache2/php.ini:/etc/php5/apache2/php.ini"
+    - "./data/:/var/lib/mysql/"
+
+  ports:
+    - "80:80"
+  environment:
+    - DEV_UID=1000
+    - DEV_GID=1000
+  links:
+    - mysql
